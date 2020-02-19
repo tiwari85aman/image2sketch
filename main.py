@@ -17,16 +17,17 @@ def generate(source_dir):
             filename, extension = each.split(".")
             try:
                 image_path = os.path.join(root, each)
+                print(image_path)
+                final_path = "/".join(image_path.split("/")[0:-1])
                 img = Image.open(image_path)
                 img.verify()  # verify that it is a non corrupted image
                 sketch_1 = image_algo_one(image_path)
                 sketch_1_filename = filename + "_sketch1." + extension
-                sketch_1_dir = os.path.join("./output", sketch_1_filename)
-                print(sketch_1_dir)
+                sketch_1_dir = os.path.join(final_path, sketch_1_filename)
                 cv2.imwrite(sketch_1_dir, sketch_1)
                 sketch_2 = image_algo_two(image_path)
                 sketch_2_filename = filename + "_sketch2." + extension
-                sketch_2_dir = os.path.join("./output", sketch_2_filename)
+                sketch_2_dir = os.path.join(final_path, sketch_2_filename)
                 cv2.imwrite(sketch_2_dir, sketch_2)
             except (IOError, SyntaxError) as e:
                 print('Bad file:', filename)
